@@ -180,9 +180,15 @@ function configure_puppet {
 }
 
 function configure_hiera {
-  log "Configuring Hiera"
+  log "Configuring hiera"
   install -o root -g root -m 0644 "${pupa_dir}/hiera.yaml" "${pletc}/code/hiera.yaml"
-  log "Successfully configured Hiera"
+  log "Successfully configured hiera"
+}
+
+function configure_hiera_eyaml {
+  log "Configuring hiera-eyaml"
+  install -o root -g root -m 0500 -d "${pletc}/keys"
+  log "Successfully configured hiera-eyaml"
 }
 
 function configure_mcollective {
@@ -207,6 +213,7 @@ function main {
   install_r10k
   configure_puppet
   configure_hiera
+  configure_hiera_eyaml
   configure_mcollective
   configure_r10k
 }
@@ -215,5 +222,6 @@ log "Bootstrapping Puppet on ${YLW}$(hostname --fqdn)${RESET}"
 main
 log "Done configuring Puppet on ${YLW}$(hostname --fqdn)${RESET}"
 log "You can now run '${plbin}/r10k deploy environment -p' to install modules and pull in configuration"
+log "Please ensure to ${RED}create/upload${RESET} the hiera-eyaml keys to ${pletc}/keys"
 log "And then run '${plbin}/puppet apply ${pletc}/environments/production/manifests/site.pp' to kick of a Puppet run"
 exit 0
