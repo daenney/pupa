@@ -46,7 +46,8 @@ In order to use Pupa:
 * edit `bootstrap/r10k.yaml` and make the `remote` key point to your fork
 * edit `bootstrap/hiera.yaml` to your liking
 * edit `bootstrap/puppet.conf` to your liking
-* rsync this to a server
+* `git clone` your fork to your server (over HTTPS is easiest and requires no
+  authentication if it's a public repo)
 * run `boostrap/pupa`
 
 Assuming nothing blew up you now have a functioning Puppet 4 installation. If
