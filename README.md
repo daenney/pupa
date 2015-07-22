@@ -29,7 +29,9 @@ What this script will attempt to do:
 * Fetch the release deb from the Puppetlabs APT mirror
 * Install it (so that we get new sources.list.d entries)
 * Refresh the APT sources
-* Install the `puppet-agent` package
+* Install the `puppet-agent` package (Puppet, cfacter, Facter, mcollective,
+  Hiera)
+* Install r10k and hiera-eyaml
 * Write configuration for:
   * puppet: Set up some defaults for masterless mode
   * hiera: Set up the hierarchy

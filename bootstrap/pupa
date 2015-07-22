@@ -145,6 +145,20 @@ function install_puppet_standalone {
   fi
 }
 
+function install_hiera_eyaml {
+  if test ! -f "${plbin}/eyaml"; then
+    log "Installing hiera-eyaml with Puppetlabs gem"
+    if debugging; then
+      "${plbin}/gem" install hiera-eyaml --no-rdoc --no-ri
+    else
+      "${plbin}/gem" install hiera-eyaml --no-rdoc --no-ri --quiet > /dev/null 2>&1
+    fi
+    log "Successfully installed hiera-eyaml"
+  else
+    log "Hiera-eyaml is already installed, skipping"
+  fi
+}
+
 function install_r10k {
   if test ! -f '/opt/puppetlabs/puppet/bin/r10k'; then
     log "Installing r10k with Puppetlabs gem"
@@ -189,6 +203,7 @@ function configure_r10k {
 function main {
   install_puppetrepo
   install_puppet_standalone
+  install_hiera_eyaml
   install_r10k
   configure_puppet
   configure_hiera
