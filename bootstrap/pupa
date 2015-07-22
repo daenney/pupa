@@ -221,7 +221,6 @@ function main {
 log "Bootstrapping Puppet on ${YLW}$(hostname --fqdn)${RESET}"
 main
 log "Done configuring Puppet on ${YLW}$(hostname --fqdn)${RESET}"
-log "You can now run '${plbin}/r10k deploy environment -p' to install modules and pull in configuration"
 log "Please ensure to ${RED}create/upload${RESET} the hiera-eyaml keys to ${pletc}/keys"
 log "And then run '${plbin}/puppet apply ${pletc}/environments/production/manifests/site.pp' to kick of a Puppet run"
 exit 0
