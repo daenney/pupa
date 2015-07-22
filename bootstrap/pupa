@@ -82,12 +82,12 @@ if [ "${EUID}" -ne 0 ]; then
   log "Bootstrapping script needs to run as ${RED}root${RESET}" ERR
   exit 1
 fi
-command -v lsb_release >/dev/null 2>&1 || { log >&2 "lsb_release is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
-command -v curl >/dev/null 2>&1 || { log >&2 "curl is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
-command -v grep >/dev/null 2>&1 || { log >&2 "grep is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
-command -v git >/dev/null 2>&1 || { log >&2 "git is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
-command -v install >/dev/null 2>&1 || { log >&2 "install is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
-command -v rm >/dev/null 2>&1 || { log >&2 "rm is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
+command -v lsb_release >/dev/null 2>&1 || { log >&2 "lsb_release is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
+command -v curl >/dev/null 2>&1 || { log >&2 "curl is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
+command -v grep >/dev/null 2>&1 || { log >&2 "grep is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
+command -v git >/dev/null 2>&1 || { log >&2 "git is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
+command -v install >/dev/null 2>&1 || { log >&2 "install is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
+command -v rm >/dev/null 2>&1 || { log >&2 "rm is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
 ### - Testing prereqs - ###
 
 # Find the OS codename
