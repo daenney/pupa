@@ -1,0 +1,15 @@
+---
+:backends:
+  - yaml
+
+:hierarchy:
+  - hosts/%{facts.fqdn}
+  - modules/%{module_name}
+  - os/%{facts.lsbdistcodename}/%{module_name}
+  - os/%{facts.lsbdistcodename}
+  - os/%{facts.osfamily}/%{module_name}
+  - os/%{facts.osfamily}
+  - global
+
+:yaml:
+  :datadir: /etc/puppet/environments/%{environment}/hiera

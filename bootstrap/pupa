@@ -1,0 +1,204 @@
+#!/bin/bash
+
+### - Bash Strcit mode - ###
+set -euo pipefail
+IFS=$'\n\t'
+### - Bash Strict mode - ###
+
+if test ${BASH_VERSION%%.*} -lt 4; then
+  echo "This script requires Bash version 4 or higher"
+  exit 1
+fi
+
+### - Logging - ###
+LOGLEVEL=${PUPA_LOGLEVEL:-INFO}
+declare -A LOG_AT
+LOG_AT['DEBUG']=5
+LOG_AT['INFO']=4
+LOG_AT['WARN']=3
+LOG_AT['ERR']=2
+LOG_AT['CRIT']=1
+
+if tty -s;then
+    typeset -r RED=${RED:-$(tput setaf 1)}
+    typeset -r GREEN=${GREEN:-$(tput setaf 2)}
+    typeset -r YLW=${YLW:-$(tput setaf 3)}
+    typeset -r BLUE=${BLUE:-$(tput setaf 4)}
+    typeset -r PURPLE=${URPLE:-$(tput setaf 5)}
+    typeset -r CYAN=${CYAN:-$(tput setaf 6)}
+    typeset -r RESET=${RESET:-$(tput sgr0)}
+    typeset -r BOLD=${BOLD:-$(tput bold)}
+else
+    typeset -r RED=
+    typeset -r GREEN=
+    typeset -r YLW=
+    typeset -r BLUE=
+    typeset -r PURPLE=
+    typeset -r CYAN=
+    typeset -r RESET=
+    typeset -r BOLD=
+fi
+
+function timestamp {
+  # Current time including UTC offset
+  date +'%H:%M:%S %z'
+}
+
+function log {
+  # Print a message on the console
+  if test $# -eq 0; then
+    log "log() needs at least a message to log" ERR
+    return
+  fi
+  msg=${1}
+  level=${2:-INFO}
+
+  if test ${level} == 'INFO'; then
+    LCOLOUR=$GREEN
+  elif test ${level} == 'WARN'; then
+    LCOLOUR=$YELLOW
+  elif test ${level} == 'ERR'; then
+    LCOLOUR=$RED
+  elif test ${level} == 'CRIT'; then
+    LCOLOUR=$PURPLE
+  elif test ${level} == 'DEBUG'; then
+    LCOLOUR=$BLUE
+  fi
+  # Check at which level we're configured to log
+  if test ${LOG_AT[${LOGLEVEL}]} -ge ${LOG_AT[${level}]}; then
+    echo "${BOLD}$(timestamp) ${LCOLOUR}$(printf %-5s ${level})${RESET} ${msg}" | fold -w120 -s | sed '2~1s/^/                    /'
+  fi
+}
+### - Logging - ###
+
+### - Testing prereqs -  ###
+function debugging {
+  # Check if we're in DEBUG mode
+  test ${LOG_AT[${LOGLEVEL}]} -eq ${LOG_AT['DEBUG']}
+}
+
+if [ "${EUID}" -ne 0 ]; then
+  # Ensure we're running as root/superuser
+  log "Bootstrapping script needs to run as ${RED}root${RESET}" ERR
+  exit 1
+fi
+command -v lsb_release >/dev/null 2>&1 || { log >&2 "lsb_release is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
+command -v curl >/dev/null 2>&1 || { log >&2 "curl is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
+command -v grep >/dev/null 2>&1 || { log >&2 "grep is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
+command -v git >/dev/null 2>&1 || { log >&2 "git is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
+command -v install >/dev/null 2>&1 || { log >&2 "install is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
+command -v rm >/dev/null 2>&1 || { log >&2 "rm is not installed, ${PURPLE}aborting${RESET}"; exit 1; }
+### - Testing prereqs - ###
+
+# Find the OS codename
+distr=`lsb_release --id -s`
+rel=`lsb_release --codename -s`
+# Version of Puppet Collection
+pc=1
+# Where this script is located
+pupa_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+# Puppetlabs bin/ dir
+plbin='/opt/puppetlabs/puppet/bin'
+pletc='/etc/puppetlabs'
+
+function install_puppetrepo {
+  if test ! -f '/etc/apt/sources.list.d/puppetlabs-pc1.list'; then
+    log "Fetching PC${pc} release package for ${distr^} ${rel^}"
+    if debugging; then
+      curl -L -O "https://apt.puppetlabs.com/puppetlabs-release-pc${pc}-${rel}.deb"
+    else
+      curl -s -L -O "https://apt.puppetlabs.com/puppetlabs-release-pc${pc}-${rel}.deb"
+    fi
+    log "Installing Puppetlabs APT sources entries for ${distr^} ${rel^}"
+    if debugging; then
+      dpkg -i "puppetlabs-release-pc${pc}-${rel}.deb"
+    else
+      dpkg -i "puppetlabs-release-pc${pc}-${rel}.deb" >/dev/null 2>&1
+    fi
+  else
+    log "Puppetlabs APT source entries already installed, skipping"
+  fi
+}
+
+function refresh_apt_sources {
+  log "Refreshing APT sources"
+  if debugging; then
+    apt-get update
+  else
+    apt-get update -qq > /dev/null 2>&1
+  fi
+  log "Done refreshing APT sources"
+}
+
+function install_puppet_standalone {
+  if test $(dpkg-query -W -f='${Status}' puppet-agent 2>/dev/null | grep -c "ok installed") -eq 0; then
+    refresh_apt_sources
+    log "Installing puppet-agent"
+    if debugging; then
+      apt-get install puppet-agent
+    else
+      DEBIAN_FRONTEND=noninteractive apt-get install -qq --yes --force-yes puppet-agent > /dev/null 2>&1
+    fi
+    log "Successfully installed puppet-agent"
+  else
+    log "Puppet-agent already installed, skipping"
+  fi
+}
+
+function install_r10k {
+  if test ! -f '/opt/puppetlabs/puppet/bin/r10k'; then
+    log "Installing r10k with Puppetlabs gem"
+    if debugging; then
+      "${plbin}/gem" install r10k --no-rdoc --no-ri
+    else
+      "${plbin}/gem" install r10k --no-rdoc --no-ri --quiet > /dev/null 2>&1
+    fi
+    log "Successfully installed r10k"
+  else
+    log "R10k is already installed, skipping"
+  fi
+}
+
+function configure_puppet {
+  log "Configuring Puppet"
+  install -o root -g root -m 0644 "${pupa_dir}/puppet.conf" "${pletc}/puppet/puppet.conf"
+  log "Successfully configured Puppet"
+}
+
+function configure_hiera {
+  log "Configuring Hiera"
+  install -o root -g root -m 0644 "${pupa_dir}/hiera.yaml" "${pletc}/code/hiera.yaml"
+  log "Successfully configured Hiera"
+}
+
+function configure_mcollective {
+  # Single server, I don't want mcollective to be able to do anything
+  log "Disabling mcollective"
+  rm -rf "${pletc}/mcollective/*"
+  log "Successfully disabled mcollective"
+}
+
+function configure_r10k {
+  log "Configuring r10k"
+  install -o root -g root -m 0755 -d "${pletc}/r10k"
+  install -o root -g root -m 0644 "${pupa_dir}/r10k.yaml" "${pletc}/r10k/r10k.yaml"
+  install -o root -g root -m 0755 -d /var/cache/r10k
+  log "Successfully configured r10k"
+}
+
+function main {
+  install_puppetrepo
+  install_puppet_standalone
+  install_r10k
+  configure_puppet
+  configure_hiera
+  configure_mcollective
+  configure_r10k
+}
+
+log "Bootstrapping Puppet on ${YLW}$(hostname --fqdn)${RESET}"
+main
+log "Done configuring Puppet on ${YLW}$(hostname --fqdn)${RESET}"
+log "You can now run '${plbin}/r10k deploy environment -p' to install modules and pull in configuration"
+log "And then run '${plbin}/puppet apply ${pletc}/environments/production/manifests/site.pp' to kick of a Puppet run"
+exit 0
