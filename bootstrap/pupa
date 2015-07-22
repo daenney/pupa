@@ -160,7 +160,7 @@ function install_hiera_eyaml {
 }
 
 function install_r10k {
-  if test ! -f '/opt/puppetlabs/puppet/bin/r10k'; then
+  if test ! -f "${plbin}/r10k"; then
     log "Installing r10k with Puppetlabs gem"
     if debugging; then
       "${plbin}/gem" install r10k --no-rdoc --no-ri
