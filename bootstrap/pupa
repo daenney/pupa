@@ -66,7 +66,7 @@ function log {
   fi
   # Check at which level we're configured to log
   if test ${LOG_AT[${LOGLEVEL}]} -ge ${LOG_AT[${level}]}; then
-    echo "${BOLD}$(timestamp) ${LCOLOUR}$(printf %-5s ${level})${RESET} ${msg}" | fold -w120 -s | sed '2~1s/^/                    /'
+    echo "${BOLD}$(timestamp) ${LCOLOUR}$(printf %-5s ${level})${RESET} ${msg}" | fold -w120 -s | sed '2~1s/^/                     /'
   fi
 }
 ### - Logging - ###
