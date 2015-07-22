@@ -60,7 +60,7 @@ inspect and modify:
 * Anything within the `dist/` directory (my roles and profiles)
 * Anything within the `hiera/` directory (my hiera data)
 
-## usage
+### usage
 
 Once you've made the necessary changes and updated the Pupa checkout on your
 machines you should invoke `r10k` to deploy your environment followed by Puppet:
