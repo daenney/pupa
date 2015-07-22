@@ -84,10 +84,7 @@ if [ "${EUID}" -ne 0 ]; then
 fi
 command -v lsb_release >/dev/null 2>&1 || { log >&2 "lsb_release is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
 command -v curl >/dev/null 2>&1 || { log >&2 "curl is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
-command -v grep >/dev/null 2>&1 || { log >&2 "grep is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
 command -v git >/dev/null 2>&1 || { log >&2 "git is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
-command -v install >/dev/null 2>&1 || { log >&2 "install is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
-command -v rm >/dev/null 2>&1 || { log >&2 "rm is not installed, ${PURPLE}aborting${RESET}" CRIT; exit 1; }
 ### - Testing prereqs - ###
 
 # Find the OS codename
@@ -100,6 +97,15 @@ pupa_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 # Puppetlabs bin/ dir
 plbin='/opt/puppetlabs/puppet/bin'
 pletc='/etc/puppetlabs'
+
+function papply {
+    if debugging; then
+      log "Going to execute: ${plbin}/puppet apply ${1}" DEBUG
+      FACTER_PUPADIR="${pupa_dir}" "${plbin}/puppet" apply "${1}"
+    else
+      FACTER_PUPADIR="${pupa_dir}" "${plbin}/puppet" apply "${1}" > /dev/null 2>&1
+    fi
+}
 
 function install_puppetrepo {
   if test ! -f '/etc/apt/sources.list.d/puppetlabs-pc1.list'; then
@@ -130,97 +136,49 @@ function refresh_apt_sources {
   log "Done refreshing APT sources"
 }
 
-function install_puppet_standalone {
-  if test $(dpkg-query -W -f='${Status}' puppet-agent 2>/dev/null | grep -c "ok installed") -eq 0; then
+function setup_puppet {
+  log "Installing and configuring puppet"
+  if test ! -f "${plbin}/puppet"; then
     refresh_apt_sources
-    log "Installing puppet-agent"
     if debugging; then
       apt-get install puppet-agent
     else
       DEBIAN_FRONTEND=noninteractive apt-get install -qq --yes --force-yes puppet-agent > /dev/null 2>&1
     fi
-    log "Successfully installed puppet-agent"
-  else
-    log "Puppet-agent already installed, skipping"
   fi
+  papply "${pupa_dir}/manifests/puppet.pp"
+  log "Successfully installed and configured puppet"
 }
 
-function install_hiera_eyaml {
-  if test ! -f "${plbin}/eyaml"; then
-    log "Installing hiera-eyaml with Puppetlabs gem"
-    if debugging; then
-      "${plbin}/gem" install hiera-eyaml --no-rdoc --no-ri
-    else
-      "${plbin}/gem" install hiera-eyaml --no-rdoc --no-ri --quiet > /dev/null 2>&1
-    fi
-    log "Successfully installed hiera-eyaml"
-  else
-    log "Hiera-eyaml is already installed, skipping"
-  fi
+function setup_hiera {
+  log "Installing and configuring hiera, hiera-eyaml"
+  papply "${pupa_dir}/manifests/hiera.pp"
+  log "Successfully installed and configured hiera-eyaml"
 }
 
-function install_r10k {
-  if test ! -f "${plbin}/r10k"; then
-    log "Installing r10k with Puppetlabs gem"
-    if debugging; then
-      "${plbin}/gem" install r10k --no-rdoc --no-ri
-    else
-      "${plbin}/gem" install r10k --no-rdoc --no-ri --quiet > /dev/null 2>&1
-    fi
-    log "Successfully installed r10k"
-  else
-    log "R10k is already installed, skipping"
-  fi
+function setup_r10k {
+  log "Installing and configuring r10k"
+  papply "${pupa_dir}/manifests/r10k.pp"
+  log "Successfully installed and configured r10k"
 }
 
-function configure_puppet {
-  log "Configuring Puppet"
-  install -o root -g root -m 0644 "${pupa_dir}/puppet.conf" "${pletc}/puppet/puppet.conf"
-  log "Successfully configured Puppet"
-}
-
-function configure_hiera {
-  log "Configuring hiera"
-  install -o root -g root -m 0644 "${pupa_dir}/hiera.yaml" "${pletc}/code/hiera.yaml"
-  log "Successfully configured hiera"
-}
-
-function configure_hiera_eyaml {
-  log "Configuring hiera-eyaml"
-  install -o root -g root -m 0500 -d "${pletc}/keys"
-  log "Successfully configured hiera-eyaml"
-}
-
-function configure_mcollective {
-  # Single server, I don't want mcollective to be able to do anything
+function setup_mcollective {
   log "Disabling mcollective"
-  rm -rf "${pletc}/mcollective/*"
+  papply "${pupa_dir}/manifests/mcollective.pp"
   log "Successfully disabled mcollective"
-}
-
-function configure_r10k {
-  log "Configuring r10k"
-  install -o root -g root -m 0755 -d "${pletc}/r10k"
-  install -o root -g root -m 0644 "${pupa_dir}/r10k.yaml" "${pletc}/r10k/r10k.yaml"
-  install -o root -g root -m 0755 -d /var/cache/r10k
-  log "Successfully configured r10k"
 }
 
 function main {
   install_puppetrepo
-  install_puppet_standalone
-  install_hiera_eyaml
-  install_r10k
-  configure_puppet
-  configure_hiera
-  configure_hiera_eyaml
-  configure_mcollective
-  configure_r10k
+  setup_puppet
+  setup_hiera
+  setup_r10k
+  setup_mcollective
 }
 
 log "Bootstrapping Puppet on ${YLW}$(hostname --fqdn)${RESET}"
 main
 log "Done configuring Puppet on ${YLW}$(hostname --fqdn)${RESET}"
-log "Please ensure to ${RED}create/upload${RESET} the hiera-eyaml keys to ${pletc}/keys"
+log "Please ensure to ${RED}create/upload${RESET} the hiera-eyaml keys in ${pletc}/keys"
 log "And then run '${plbin}/puppet apply ${pletc}/environments/production/manifests/site.pp' to kick of a Puppet run"
 exit 0

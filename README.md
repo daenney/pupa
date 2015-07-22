@@ -38,6 +38,19 @@ What this script will attempt to do:
   * mcollective: Disables it
   * r10k: Set up where to clone environments from and how to deploy them
 
+### idempotency
+
+Pupa tries to be fairly intelligent. If you have a look at the code you'll see
+that it does its best not to install packages or refresh sources if it detects
+it's not needed.
+
+Once Puppet is installed we use it to configure the rest of the system for us.
+Though we incur a slight runtime penalty from calling Puppet a couple of times
+we gain all the benefits, including idempotency.
+
+This means this script can be run in a continuous loop not ever taking any
+action that modifies the system except if its source files have been updated.
+
 ### usage
 
 In order to use Pupa:
