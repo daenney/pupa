@@ -6,3 +6,17 @@ file { '/etc/puppetlabs/mcollective':
   purge   => true,
   recurse => true,
 }
+
+file { '/etc/puppetlabs/mcollective/server.cfg':
+  ensure => 'file',
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+}
+
+file { '/etc/puppetlabs/mcollective/client.cfg':
+  ensure => 'file',
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+}
