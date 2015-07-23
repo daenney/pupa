@@ -19,8 +19,21 @@ log "git: resetting pupa checkout"
 /usr/bin/git reset --hard HEAD
 log "git: updating pupa checkout"
 /usr/bin/git pull
-log "r10k: deploying environment(s)"
-/usr/local/bin/r10k deploy environment -pv
-log "papply: running with arguments '${@}'"
-/usr/local/bin/papply "${@}"
+if test $# -lt 1; then
+  log "Need at least an environment name to apply" >&2
+  exit 1
+elif test $# -eq 1; then
+  log "r10k: deploying environment: '${@}'"
+  /usr/local/bin/r10k deploy environment ${@} -pv
+  log "papply: running with arguments '${@}'"
+  /usr/local/bin/papply "${@}"
+else
+  env="${1}"
+  shift 1
+  rest="${@}"
+  log "r10k: deploying environment: '${env}'"
+  /usr/local/bin/r10k deploy environment ${env} -pv
+  log "papply: running with arguments '${env} ${rest}'"
+  /usr/local/bin/papply "${env}" "${rest}"
+fi
 log "pdeploy: done"
