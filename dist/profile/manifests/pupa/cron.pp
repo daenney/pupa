@@ -7,6 +7,6 @@ class profile::pupa::cron {
   }
 
   cron { 'git pull pupa': ensure  => 'absent', }
-  cron { 'r10k deploy': ensure  => 'present', }
-  cron { 'puppet apply': ensure  => 'present', }
+  cron { 'r10k deploy': ensure  => 'absent', }
+  cron { 'puppet apply': ensure  => 'absent', }
 }
