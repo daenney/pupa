@@ -1,4 +1,4 @@
-# Pupa
+# Pupa [![Travis](https://img.shields.io/travis/daenney/pupa.svg?style=flat-square)]()
 
 Pupa is a few things:
 
