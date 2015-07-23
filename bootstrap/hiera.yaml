@@ -4,23 +4,23 @@
   - yaml
 
 :hierarchy:
-  - host/%{::facts.fqdn}
-  - distribution/%{::facts.lsbdistcodename}/%{module_name}
-  - distribution/%{::facts.lsbdistcodename}
-  - distribution/%{::facts.lsbdistid}/%{module_name}
-  - distribution/%{::facts.lsbdistid}
-  - osfamily/%{::facts.osfamily}/%{module_name}
-  - osfamily/%{::facts.osfamily}
-  - module/%{module_name}
+  - "host/%{::facts.fqdn}"
+  - "distribution/%{::facts.lsbdistcodename}/%{module_name}"
+  - "distribution/%{::facts.lsbdistcodename}"
+  - "distribution/%{::facts.lsbdistid}/%{module_name}"
+  - "distribution/%{::facts.lsbdistid}"
+  - "osfamily/%{::facts.osfamily}/%{module_name}"
+  - "osfamily/%{::facts.osfamily}"
+  - "module/%{module_name}"
   - global
 
 :merge_behavior: deeper
 
 :eyaml:
   :extension: 'yaml'
-  :datadir: /etc/puppetlabs/code/environments/%{::environment}/hiera
+  :datadir: "/etc/puppetlabs/code/environments/%{::environment}/hiera"
   :pkcs7_private_key: /etc/puppetlabs/keys/private_key.pkcs7.pem
   :pkcs7_public_key:  /etc/puppetlabs/keys/public_key.pkcs7.pem
 
 :yaml:
-  :datadir: /etc/puppetlabs/code/environments/%{::environment}/hiera
+  :datadir: "/etc/puppetlabs/code/environments/%{::environment}/hiera"

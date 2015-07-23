@@ -4,15 +4,15 @@ apt::sources:
     repos: main restricted universe multiverse
   digitalocean_updates:
     location: http://mirrors.digitalocean.com/ubuntu
-    release: %{facts.lsbdistcodename}-updates
+    release: "%{::facts.lsbdistcodename}-updates"
     repos: main restricted universe multiverse
   digitalocean_backports:
     location: http://mirrors.digitalocean.com/ubuntu
-    release: %{facts.lsbdistcodename}-backports
+    release: "%{::facts.lsbdistcodename}-backports"
     repos: main restricted universe multiverse
   security:
     location: http://security.ubuntu.com/ubuntu
-    release: %{facts.lsbdistcodename}-security
+    release: "%{::facts.lsbdistcodename}-security"
     repos: main restricted universe multiverse
   puppetlabs:
     location: http://apt.puppetlabs.com
