@@ -20,6 +20,6 @@ class profile::pupa::cron {
     command => '/usr/local/bin/papply production > /var/log/puppetlabs/puppet/apply.log 2>&1',
     user    => 'root',
     minute  => $cron_minutes.map |$x| { $x + 2 },
-    require => Class['::puppa::binstub'],
+    require => Class['::profile::puppa::binstub'],
   }
 }
