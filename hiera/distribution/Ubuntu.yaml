@@ -14,7 +14,7 @@ apt::sources:
     location: http://security.ubuntu.com/ubuntu
     release: "%{::facts.lsbdistcodename}-security"
     repos: main restricted universe multiverse
-  puppetlabs:
+  puppetlabs-pc1:
     location: http://apt.puppetlabs.com
     repos: PC1
     key:
