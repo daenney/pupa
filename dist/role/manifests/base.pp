@@ -25,7 +25,7 @@ class role::base {
 
   cron { 'puppet apply':
     ensure  => 'present',
-    command => '/usr/local/bin/puppet apply /etc/puppetlabs/code/environments/production/manifets/site.pp > /var/log/puppetlabs/puppet/apply.log 2>&1',
+    command => '/usr/local/bin/puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp > /var/log/puppetlabs/puppet/apply.log 2>&1',
     user    => 'root',
     minute  => $cron_minutes.map |$x| { $x + 2 },
     require => Aio_binstub['puppet']
