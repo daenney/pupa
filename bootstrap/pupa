@@ -101,9 +101,9 @@ pletc='/etc/puppetlabs'
 function papply {
     if debugging; then
       log "Going to execute: ${plbin}/puppet apply ${1}" DEBUG
-      FACTER_PUPADIR="${pupa_dir}" "${plbin}/puppet" apply "${1}"
+      FACTER_PUPADIR="${pupa_dir}" "${plbin}/puppet" apply "${1}" "--prerun_command=''" "--postrun_command=''"
     else
-      FACTER_PUPADIR="${pupa_dir}" "${plbin}/puppet" apply "${1}" > /dev/null 2>&1
+      FACTER_PUPADIR="${pupa_dir}" "${plbin}/puppet" apply "${1}" "--prerun_command=''" "--postrun_command=''" > /dev/null 2>&1
     fi
 }
 
