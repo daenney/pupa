@@ -16,6 +16,6 @@ define aio_binstub (
     group   => 'root',
     mode    => '0755',
     path    => "${target}/${stub}",
-    content => "#!/usr/bin/env bash\n\nexec \"${plbin}/${title}\" \"$@\"",
+    content => "#!/usr/bin/env bash\n\nexec \"${plbin}/${title}\" \"$@\"\n",
   }
 }
