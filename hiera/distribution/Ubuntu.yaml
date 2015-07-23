@@ -1,0 +1,22 @@
+apt::sources:
+  digitalocean:
+    location: http://mirrors.digitalocean.com/ubuntu
+    repos: main restricted universe multiverse
+  digitalocean_updates:
+    location: http://mirrors.digitalocean.com/ubuntu
+    release: %{facts.lsbdistcodename}-updates
+    repos: main restricted universe multiverse
+  digitalocean_backports:
+    location: http://mirrors.digitalocean.com/ubuntu
+    release: %{facts.lsbdistcodename}-backports
+    repos: main restricted universe multiverse
+  security:
+    location: http://security.ubuntu.com/ubuntu
+    release: %{facts.lsbdistcodename}-security
+    repos: main restricted universe multiverse
+  puppetlabs:
+    location: http://apt.puppetlabs.com
+    repos: PC1
+    key:
+      id: 47B320EB4C7C375AA9DAE1A01054B7A24BD6EC30
+      server: pgp.mit.edu

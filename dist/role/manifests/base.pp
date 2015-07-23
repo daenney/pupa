@@ -1,4 +1,6 @@
 class role::base {
+  include ::apt
+
   aio_binstub { 'puppet': }
   aio_binstub { 'r10k': }
   aio_binstub { 'hiera': }
