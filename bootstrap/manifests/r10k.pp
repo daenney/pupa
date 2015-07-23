@@ -7,7 +7,14 @@ file { '/etc/puppetlabs/r10k':
   ensure => 'directory',
   owner  => 'root',
   group  => 'root',
-  mode   => '0755',
+  mode   => '0644',
+}
+
+file { '/var/cache/r10k':
+  ensure => 'directory',
+  owner  => 'root',
+  group  => 'root',
+  mode   => '0644',
 }
 
 file { '/etc/puppetlabs/r10k/r10k.yaml':
