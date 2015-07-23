@@ -180,5 +180,6 @@ log "Bootstrapping Puppet on ${YLW}$(hostname --fqdn)${RESET}"
 main
 log "Done configuring Puppet on ${YLW}$(hostname --fqdn)${RESET}"
 log "Please ensure to ${RED}create/upload${RESET} the hiera-eyaml keys in ${pletc}/keys"
+log "First run '${plbin}/r10k deploy environment -pv' to deploy your code"
 log "And then run '${plbin}/puppet apply ${pletc}/code/environments/production/manifests/site.pp' to kick of a Puppet run"
 exit 0

@@ -79,14 +79,16 @@ inspect and modify:
 ### usage
 
 Once you've made the necessary changes and updated the Pupa checkout on your
-machines you can now run `puppet apply`.
+machines you need to:
 
-The `prerun_command` we've defined in `puppet.conf` will take care of invoking
-r10k and deploying an update to our environment.
+* Run `r10k` to deploy your environment(s)
+* Run `puppet apply` to apply the configuration
 
 If everything went fine you should see something like this:
 
 ```
+$ /opt/puppetlabs/puppet/bin/r10k deploy environment -pv
+INFO	 -> Deploying environment /etc/puppetlabs/code/environments/production
 $ /opt/puppetlabs/puppet/bin/puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp
 Notice: Compiled catalog for localhost in environment production in 0.71 seconds
 Notice: Applied catalog in 0.04 seconds
