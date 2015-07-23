@@ -4,14 +4,14 @@
   - yaml
 
 :hierarchy:
-  - hosts/%{::facts.fqdn}
+  - host/%{::facts.fqdn}
   - distribution/%{::facts.lsbdistcodename}/%{module_name}
   - distribution/%{::facts.lsbdistcodename}
   - distribution/%{::facts.lsbdistid}/%{module_name}
   - distribution/%{::facts.lsbdistid}
   - osfamily/%{::facts.osfamily}/%{module_name}
   - osfamily/%{::facts.osfamily}
-  - modules/%{module_name}
+  - module/%{module_name}
   - global
 
 :merge_behavior: deeper
