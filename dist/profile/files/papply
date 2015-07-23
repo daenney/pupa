@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if test $# -lt 1; then
+  echo "Need at least an environment name to apply" >&2
+  exit 1
+elif test $# -eq 1; then
+  exec "/opt/puppetlabs/puppet/bin/puppet" apply "/etc/puppetlabs/code/environments/${@}/manifests/site.pp"
+else
+  env="${1}"
+  shift 1
+  rest="${@}"
+  exec "/opt/puppetlabs/puppet/bin/puppet" apply "/etc/puppetlabs/code/environments/${env}/manifests/site.pp" "${rest}"
+fi
