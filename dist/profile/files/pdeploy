@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+### - Bash Strict mode - ###
+set -euo pipefail
+IFS=$'\n\t'
+### - Bash Strict mode - ###
+
+function timestamp {
+  # Current time including UTC offset
+  date +'%H:%M:%S %z'
+}
+
+function log {
+  echo "$(timestamp) ${@}"
+}
+
+cd /var/cache/pupa
+log "git: resetting pupa checkout"
+/usr/bin/git reset --hard HEAD
+log "git: updating pupa checkout"
+/usr/bin/git pull
+log "r10k: deploying environment(s)"
+/usr/local/bin/r10k deploy environment -pv
+log "papply: running with arguments '${@}'"
+/usr/local/bin/papply "${@}"
+log "pdeploy: done"

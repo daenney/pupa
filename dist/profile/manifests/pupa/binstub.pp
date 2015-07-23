@@ -15,4 +15,13 @@ class profile::pupa::binstub {
     path   => '/usr/local/bin/papply',
     source => "puppet:///modules/${module_name}/papply",
   }
+
+  file { 'pdeploy':
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    path   => '/usr/local/bin/pdeploy',
+    source => "puppet:///modules/${module_name}/pdeploy",
+  }
 }

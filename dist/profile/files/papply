@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+### - Bash Strict mode - ###
+set -euo pipefail
+IFS=$'\n\t'
+### - Bash Strict mode - ###
+
 if test $# -lt 1; then
   echo "Need at least an environment name to apply" >&2
   exit 1
