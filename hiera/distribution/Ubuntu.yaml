@@ -20,3 +20,11 @@ apt::sources:
     key:
       id: 47B320EB4C7C375AA9DAE1A01054B7A24BD6EC30
       server: pgp.mit.edu
+  mosh:
+     location: http://ppa.launchpad.net/keithw/mosh-dev/ubuntu
+     key:
+       id: F2923D3F37FEF230BDDC376E3EB9326A7BF6DFCD
+  fish:
+    location: http://ppa.launchpad.net/fish-shell/release-2/ubuntu
+    key:
+      id: 59FDA1CE1B84B3FAD89366C027557F056DC33CA5
