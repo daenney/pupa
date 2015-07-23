@@ -5,12 +5,12 @@
 
 :hierarchy:
   - hosts/%{::facts.fqdn}
-  - os/%{::facts.lsbdistcodename}/%{module_name}
-  - os/%{::facts.lsbdistcodename}
-  - os/%{::facts.lsbdistid}/%{module_name}
-  - os/%{::facts.lsbdistid}
-  - os/%{::facts.osfamily}/%{module_name}
-  - os/%{::facts.osfamily}
+  - distribution/%{::facts.lsbdistcodename}/%{module_name}
+  - distribution/%{::facts.lsbdistcodename}
+  - distribution/%{::facts.lsbdistid}/%{module_name}
+  - distribution/%{::facts.lsbdistid}
+  - osfamily/%{::facts.osfamily}/%{module_name}
+  - osfamily/%{::facts.osfamily}
   - modules/%{module_name}
   - global
 
