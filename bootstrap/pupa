@@ -88,8 +88,8 @@ command -v git >/dev/null 2>&1 || { log >&2 "git is not installed, ${PURPLE}abor
 ### - Testing prereqs - ###
 
 # Find the OS codename
-distr=`lsb_release --id -s`
-rel=`lsb_release --codename -s`
+distr=$(lsb_release --id -s)
+rel=$(lsb_release --codename -s)
 # Version of Puppet Collection
 pc=1
 # Where this script is located
