@@ -4,21 +4,23 @@
   - yaml
 
 :hierarchy:
-  - hosts/%{facts.fqdn}
+  - hosts/%{::facts.fqdn}
+  - os/%{::facts.lsbdistcodename}/%{module_name}
+  - os/%{::facts.lsbdistcodename}
+  - os/%{::facts.lsbdistid}/%{module_name}
+  - os/%{::facts.lsbdistid}
+  - os/%{::facts.osfamily}/%{module_name}
+  - os/%{::facts.osfamily}
   - modules/%{module_name}
-  - os/%{facts.lsbdistcodename}/%{module_name}
-  - os/%{facts.lsbdistcodename}
-  - os/%{facts.osfamily}/%{module_name}
-  - os/%{facts.osfamily}
   - global
 
 :merge_behavior: deeper
 
 :eyaml:
   :extension: 'yaml'
-  :datadir: /etc/puppet/environments/%{environment}/hiera
+  :datadir: /etc/puppet/environments/%{::environment}/hiera
   :pkcs7_private_key: /etc/puppetlabs/keys/private_key.pkcs7.pem
   :pkcs7_public_key:  /etc/puppetlabs/keys/public_key.pkcs7.pem
 
 :yaml:
-  :datadir: /etc/puppet/environments/%{environment}/hiera
+  :datadir: /etc/puppet/environments/%{::environment}/hiera
