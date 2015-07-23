@@ -18,9 +18,9 @@
 
 :eyaml:
   :extension: 'yaml'
-  :datadir: /etc/puppet/environments/%{::environment}/hiera
+  :datadir: /etc/puppetlabs/code/environments/%{::environment}/hiera
   :pkcs7_private_key: /etc/puppetlabs/keys/private_key.pkcs7.pem
   :pkcs7_public_key:  /etc/puppetlabs/keys/public_key.pkcs7.pem
 
 :yaml:
-  :datadir: /etc/puppet/environments/%{::environment}/hiera
+  :datadir: /etc/puppetlabs/code/environments/%{::environment}/hiera
