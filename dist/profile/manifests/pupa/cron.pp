@@ -12,7 +12,7 @@ class profile::pupa::cron {
     command => '/usr/local/bin/r10k deploy environment -pv > /var/log/puppetlabs/puppet/r10k.log 2>&1',
     user    => 'root',
     minute  => $cron_minutes.map |$x| { $x + 1 },
-    require => Class['::puppa::binstub'],
+    require => Class['::profile::puppa::binstub'],
   }
 
   cron { 'puppet apply':
