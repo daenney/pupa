@@ -7,7 +7,7 @@ class role::base {
   aio_binstub { 'gem': prefix => 'puppet', }
   aio_binstub { 'irb': prefix => 'puppet', }
 
-  $cron_minutes = [5, 15, 25, 35, 45, 55]
+  $cron_minutes = range(5, 55, 10)
   cron { 'git pull pupa':
     ensure  => 'present',
     command => 'cd /var/cache/pupa && /usr/bin/git reset --hard HEAD && /usr/bin/git pull > /var/log/puppetlabs/puppet/pupa.log 2>&1',
