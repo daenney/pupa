@@ -110,6 +110,35 @@ $ bundle install
  Use `bundle show [gemname]` to see where a bundled gem is installed.
 ```
 
+The Gemfile also installs puppet-lint, the puppetlabs_spec_helper gem and a
+bunch of puppet-lint plugins. These will help you to check your manifests for
+things like syntax errors and style errors or run the rspec tests.
+
+A number of tasks are defined by the Rakefile:
+
+```
+$ rake -vT
+rake beaker            # Run beaker acceptance tests
+[..]
+rake validate          # Check syntax of Ruby files and call :syntax and :metadata
+```
+
+You'll most likely want to use the `test` task:
+
+```
+$ rake test
+---> syntax:manifests
+---> syntax:templates
+---> syntax:hiera:yaml
+---> lint
+---> spec
+/usr/local/var/rbenv/versions/2.1.6/bin/ruby -I/usr/local/var/rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/rspec-core-3.3.2/lib:/usr/local/var/rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/rspec-support-3.3.0/lib /usr/local/var/rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/rspec-core-3.3.2/exe/rspec --pattern spec/\{classes,defines,unit,functions,hosts,integration\}/\*\*/\*_spec.rb --color
+No examples found.
+
+Finished in 0.00033 seconds (files took 0.06367 seconds to load)
+0 examples, 0 failures
+```
+
 ## Contributing
 
 Contributions to both the bootstrap script and my configuration are always very
