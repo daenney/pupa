@@ -93,7 +93,7 @@ rel=$(lsb_release --codename -s)
 # Version of Puppet Collection
 pc=1
 # Where this script is located
-pupa_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+pupa_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)
 # Puppetlabs bin/ dir
 plbin='/opt/puppetlabs/puppet/bin'
 pletc='/etc/puppetlabs'
