@@ -5,8 +5,4 @@ class profile::pupa::cron {
     minute  => range(5, 55,10),
     require => Class['::profile::pupa::binstub'],
   }
-
-  cron { 'git pull pupa': ensure  => 'absent', }
-  cron { 'r10k deploy': ensure  => 'absent', }
-  cron { 'puppet apply': ensure  => 'absent', }
 }
