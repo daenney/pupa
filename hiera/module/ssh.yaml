@@ -54,7 +54,7 @@ ssh::server_options:
   TCPKeepAlive: 'no'
   UseDNS: 'no'
   UseLogin: 'no'
-  UsePAM: 'yes'
+  UsePAM: 'no'
   UsePrivilegeSeparation: 'sandbox'
   X11Forwarding: 'no'
   X11UseLocalhost: 'yes'
