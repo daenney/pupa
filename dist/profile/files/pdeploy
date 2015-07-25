@@ -45,11 +45,8 @@ function puppet_apply {
 
 if test $# -lt 1; then
   env='production'
-elif test "${1:0:1}" == '-'; then
-  env='production'
 else
-  env=${1}
-  shift 1
+  env="${1}"
 fi
 
 
@@ -59,7 +56,7 @@ if (set -o noclobber; echo "$$" > "${lockfile}") 2> /dev/null; then
     log "pdeploy: deploying: ${env}"
     update_checkout "${env}"
     r10k_deploy "${env}"
-    puppet_apply "${env}" "${@}"
+    puppet_apply "${env}"
     log "pdeploy: done deploying: ${env}"
     rm -f "${lockfile}"
     trap - INT TERM EXIT
