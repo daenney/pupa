@@ -26,21 +26,21 @@ fi
 
 function update_checkout {
   log "git: resetting pupa checkout"
-  git --git-dir="${pupadir}/.git" --work-tree="${pupadir}" reset --hard HEAD
+  git --git-dir="${pupadir}/.git" --work-tree="${pupadir}" reset --hard HEAD > /dev/null 2>&1
   log "git: updating pupa checkout"
-  git --git-dir="${pupadir}/.git" --work-tree="${pupadir}" pull
+  git --git-dir="${pupadir}/.git" --work-tree="${pupadir}" pull > /dev/null 2>&1
 }
 
 function r10k_deploy {
   log "r10k: resetting environment: ${1}"
-  git --git-dir="${envdir}/${1}/.git" --work-tree="${envdir}/${1}" reset --hard HEAD
+  git --git-dir="${envdir}/${1}/.git" --work-tree="${envdir}/${1}" reset --hard HEAD > /dev/null 2>&1
   log "r10k: deploying environment: ${1}"
-  /usr/local/bin/r10k deploy environment "${1}" -pv
+  /usr/local/bin/r10k deploy environment "${1}" -p > /dev/null 2>&1
 }
 
 function puppet_apply {
   log "puppet: applying catalog for environment: ${1}"
-  /usr/local/bin/papply "${@}"
+  /usr/local/bin/papply "${@}" > /dev/null 2>&1
 }
 
 if test $# -lt 1; then
