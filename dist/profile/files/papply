@@ -5,13 +5,26 @@ set -euo pipefail
 IFS=$'\n\t'
 ### - Bash Strict mode - ###
 
+lockfile='/var/run/puppetlabs/apply.lock'
+
+function do_apply {
+  if (set -o noclobber; echo "$$" > "${lockfile}") 2> /dev/null; then
+    trap 'rm -f "${lockfile}"; exit $?' INT TERM EXIT
+    env=${1}
+    shift 1
+    /opt/puppetlabs/puppet/bin/puppet apply "/etc/puppetlabs/code/environments/${env}/manifests/site.pp" "${@}"
+    rm -f "${lockfile}"
+    trap - INT TERM EXIT
+  else
+    echo "Can not run, lockfile exists at ${lockfile}"
+  fi
+}
+
+
 if test $# -lt 1; then
-  echo "Need at least an environment name to apply" >&2
-  exit 1
-elif test $# -eq 1; then
-  exec "/opt/puppetlabs/puppet/bin/puppet" apply "/etc/puppetlabs/code/environments/${@}/manifests/site.pp"
+  do_apply production
+elif test "${1:0:1}" == '-'; then
+  do_apply production "${@}"
 else
-  env="${1}"
-  shift 1
-  exec "/opt/puppetlabs/puppet/bin/puppet" apply "/etc/puppetlabs/code/environments/${env}/manifests/site.pp" "${@}"
+  do_apply "${@}"
 fi
