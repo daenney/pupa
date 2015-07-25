@@ -16,7 +16,7 @@ function do_apply {
     rm -f "${lockfile}"
     trap - INT TERM EXIT
   else
-    echo "Can not run, lockfile exists at ${lockfile}"
+    echo "Can not run, process with PID: $(cat ${lockfile}) holds lockfile at ${lockfile}" >&2
   fi
 }
 
