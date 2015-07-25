@@ -12,14 +12,14 @@ ssh::server_options:
   ClientAliveInterval: 600
   GatewayPorts: 'no'
   GSSAPIAuthentication: 'no'
-  GSSAPICleanupCredential: 'yes'
+  GSSAPICleanupCredentials: 'yes'
   HostbasedAuthentication: 'no'
   HostKey:
     - '/etc/ssh/ssh_host_rsa_key'
     - '/etc/ssh/ssh_host_ed25519_key'
   IgnoreRhosts: 'yes'
   IgnoreUserKnownHosts: 'yes'
-  KerberosAuthenticaton: 'no'
+  KerberosAuthentication: 'no'
   KerberosOrLocalPasswd: 'no'
   KerberosTicketCleanup: 'yes'
   KexAlgorithms: 'curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256'
