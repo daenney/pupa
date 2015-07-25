@@ -55,6 +55,21 @@ describe 'profile::pupa::users' do
           }.to raise_error(Puppet::Error, /SSH \(EC\)DSA/)
         end
       end
+
+      context 'invalid' do
+        let(:params) {{
+          :humans => {
+              'daenney' => {
+                'ssh_authorized_keys' => 1
+              }
+            }
+        }}
+        it do
+          expect {
+            subject.call
+          }.to raise_error(Puppet::Error, /can only be/)
+        end
+      end
   end
 
   describe 'user with array of keys of type' do
