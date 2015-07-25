@@ -16,7 +16,7 @@ ssh::server_options:
   HostbasedAuthentication: 'no'
   HostKey:
     - '/etc/ssh/ssh_host_rsa_key'
-    - '/etc/ssh/ssh_host_ed25519_key']
+    - '/etc/ssh/ssh_host_ed25519_key'
   IgnoreRhosts: 'yes'
   IgnoreUserKnownHosts: 'yes'
   KerberosAuthenticaton: 'no'
