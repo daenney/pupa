@@ -1,5 +1,5 @@
 class profile::ssh {
-  contain ::sh
+  contain ::ssh
 
   file { '/etc/ssh/moduli':
     ensure  => 'file',
