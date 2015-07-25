@@ -5,8 +5,9 @@ pkg/*
 Gemfile.lock
 
 # Tests
-spec/fixtures/*
-coverage/*
+**/spec/fixtures/*
+!**/spec/fixtures/hiera
+**/coverage/*
 
 # Third-party
 vendor/*
@@ -16,4 +17,4 @@ vendor/*
 .ruby-version
 
 # hiera-eyaml
-keys
+keys/*
