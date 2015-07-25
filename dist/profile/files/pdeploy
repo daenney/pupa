@@ -14,6 +14,11 @@ function log {
   echo "$(timestamp) ${@}"
 }
 
+if test -f '/var/cache/pupa/disable-puppet'; then
+  log "Puppet has been disabled since $(stat -c %y /var/cache/pupa/disable-puppet), not running" >&2
+  exit 1
+fi
+
 cd /var/cache/pupa
 log "git: resetting pupa checkout"
 /usr/bin/git reset --hard HEAD
@@ -37,3 +42,4 @@ else
   /usr/local/bin/papply "${env}" "${rest}"
 fi
 log "pdeploy: done"
+exit 0
