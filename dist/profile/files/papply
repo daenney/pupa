@@ -13,6 +13,5 @@ elif test $# -eq 1; then
 else
   env="${1}"
   shift 1
-  rest="${@}"
-  exec "/opt/puppetlabs/puppet/bin/puppet" apply "/etc/puppetlabs/code/environments/${env}/manifests/site.pp" "${rest}"
+  exec "/opt/puppetlabs/puppet/bin/puppet" apply "/etc/puppetlabs/code/environments/${env}/manifests/site.pp" "${@}"
 fi

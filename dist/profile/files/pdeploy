@@ -35,11 +35,10 @@ elif test $# -eq 1; then
 else
   env="${1}"
   shift 1
-  rest="${@}"
   log "r10k: deploying environment: '${env}'"
   /usr/local/bin/r10k deploy environment ${env} -pv
-  log "papply: running with arguments '${env} ${rest}'"
-  /usr/local/bin/papply "${env}" "${rest}"
+  log "papply: running with arguments '${env} ${@}'"
+  /usr/local/bin/papply "${env}" "${@}"
 fi
 log "pdeploy: done"
 exit 0
