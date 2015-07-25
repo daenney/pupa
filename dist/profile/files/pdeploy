@@ -39,6 +39,7 @@ function r10k_deploy {
 }
 
 function puppet_apply {
+  log "puppet: applying catalog for environment: ${1}"
   /usr/local/bin/papply "${@}"
 }
 
