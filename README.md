@@ -131,12 +131,11 @@ $ rake test
 ---> syntax:templates
 ---> syntax:hiera:yaml
 ---> lint
----> spec
-/usr/local/var/rbenv/versions/2.1.6/bin/ruby -I/usr/local/var/rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/rspec-core-3.3.2/lib:/usr/local/var/rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/rspec-support-3.3.0/lib /usr/local/var/rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/rspec-core-3.3.2/exe/rspec --pattern spec/\{classes,defines,unit,functions,hosts,integration\}/\*\*/\*_spec.rb --color
-No examples found.
+---> spec: dist/profile
+[..]
 
-Finished in 0.00033 seconds (files took 0.06367 seconds to load)
-0 examples, 0 failures
+Finished in 1 second (files took 0.77317 seconds to load)
+15 examples, 0 failures
 ```
 
 ## Contributing
