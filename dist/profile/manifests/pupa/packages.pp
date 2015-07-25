@@ -7,5 +7,10 @@ class profile::pupa::packages {
     require => Apt::Source['fish'],
   }
 
+  package { 'weechat':
+    *       => $p_opts,
+    require => Apt::Source['weechat'],
+  }
+
   package { 'tmux': * => $p_opts, }
 }

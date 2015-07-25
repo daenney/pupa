@@ -28,3 +28,7 @@ apt::sources:
     location: http://ppa.launchpad.net/fish-shell/release-2/ubuntu
     key:
       id: 59FDA1CE1B84B3FAD89366C027557F056DC33CA5
+  weechat:
+    location: http://ppa.launchpad.net/nesthib/weechat-stable/ubuntu
+    key:
+      id: B3CA2119E0A8776886319AD4CAF43B664573289D
