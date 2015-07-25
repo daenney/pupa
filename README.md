@@ -3,11 +3,11 @@
 Pupa is a few things:
 
 * Heavily inspired by [puppetinabox](https://github.com/puppetinabox/documentation)
-* Named after a haunted [doll](http://www.nightwatchparanormal.com/pupa-the-haunted-doll.html)
-* Licensed under the Apache License, Version 2.0
-* A script to bootstrap a masterless (puppet apply) installation of Puppet 4
+* Named after a [haunted doll](http://www.nightwatchparanormal.com/pupa-the-haunted-doll.html)
+* Licensed under the [Apache License, Version 2.0](LICENSE)
+* A [script](bootstrap/pupa) to bootstrap a masterless (puppet apply) installation of Puppet 4
   with r10k
-* Puppet manifests for my personal machines
+* Puppet [manifests](dist) for my personal machines
 
 ## pupa (the script)
 
