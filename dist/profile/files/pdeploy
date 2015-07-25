@@ -5,6 +5,11 @@ set -euo pipefail
 IFS=$'\n\t'
 ### - Bash Strict mode - ###
 
+lockfile='/var/run/puppetlabs/pdeploy.lock'
+papply_lockfile='/var/run/puppetlabs/apply.lock'
+pupadir='/var/cache/pupa'
+envdir='/etc/puppetlabs/code/environments'
+
 function timestamp {
   # Current time including UTC offset
   date +'%H:%M:%S %z'
@@ -14,32 +19,55 @@ function log {
   echo "$(timestamp) ${@}"
 }
 
-if test -f '/var/cache/pupa/disable-puppet'; then
-  log "Puppet has been disabled since $(stat -c %y /var/cache/pupa/disable-puppet), not running" >&2
+if test -f '/var/cache/pupa/disable-pdeploy'; then
+  log "pdeploy: disabled since $(stat -c %y /var/cache/pupa/disable-pdeploy), not running" >&2
   exit 1
 fi
 
-log "pdeploy: starting"
-cd /var/cache/pupa
-log "git: resetting pupa checkout"
-/usr/bin/git reset --hard HEAD
-log "git: updating pupa checkout"
-/usr/bin/git pull
-if test $# -lt 1; then
-  log "Need at least an environment name to apply" >&2
-  exit 1
-elif test $# -eq 1; then
-  log "r10k: deploying environment: '${@}'"
-  /usr/local/bin/r10k deploy environment ${@} -pv
-  log "papply: running with arguments '${@}'"
+function update_checkout {
+  log "git: resetting pupa checkout"
+  git --git-dir="${pupadir}/.git" --work-tree="${pupadir}" reset --hard HEAD
+  log "git: updating pupa checkout"
+  git --git-dir="${pupadir}/.git" --work-tree="${pupadir}" pull
+}
+
+function r10k_deploy {
+  log "r10k: resetting environment: ${1}"
+  git --git-dir="${envdir}/${1}/.git" --work-tree="${envdir}/${1}" reset --hard HEAD
+  log "r10k: deploying environment: ${1}"
+  /usr/local/bin/r10k deploy environment "${1}" -pv
+}
+
+function puppet_apply {
   /usr/local/bin/papply "${@}"
+}
+
+if test $# -lt 1; then
+  env='production'
+elif test "${1:0:1}" == '-'; then
+  env='production'
 else
-  env="${1}"
+  env=${1}
   shift 1
-  log "r10k: deploying environment: '${env}'"
-  /usr/local/bin/r10k deploy environment ${env} -pv
-  log "papply: running with arguments '${env} ${@}'"
-  /usr/local/bin/papply "${env}" "${@}"
 fi
-log "pdeploy: done"
-exit 0
+
+
+if (set -o noclobber; echo "$$" > "${lockfile}") 2> /dev/null; then
+  if test ! -f "${papply_lockfile}"; then
+    trap 'rm -f "${lockfile}"; exit $?' INT TERM EXIT
+    log "pdeploy: deploying: ${env}"
+    update_checkout "${env}"
+    r10k_deploy "${env}"
+    puppet_apply "${env}" "${@}"
+    log "pdeploy: done deploying: ${env}"
+    rm -f "${lockfile}"
+    trap - INT TERM EXIT
+    exit 0
+  else
+    log: "pdeploy: Cannot run, there already is a 'puppet apply' in progress" >&2
+    exit 1
+  fi
+else
+  log "pdeploy: Cannot run, process with PID: $(cat ${lockfile}) holds lockfile at ${lockfile}" >&2
+  exit 1
+fi
