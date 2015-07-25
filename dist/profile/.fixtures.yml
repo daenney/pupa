@@ -3,5 +3,14 @@ fixtures:
     stdlib:
       repo: 'puppetlabs/stdlib'
       ref: '4.6.0'
+    concat:
+      repo: 'puppetlabs/concat'
+      ref: '1.2.4'
+    apt:
+      repo: 'puppetlabs/apt'
+      ref: '2.1.0'
+    ssh:
+      repo: 'saz/ssh'
+      ref: '2.8.1'
   symlinks:
     "profile": "#{source_dir}"
