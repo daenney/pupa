@@ -1,3 +1,67 @@
+humans:
+  daenney:
+    ensure: present
+    expiry: absent
+    gid: daenney
+    groups:
+      - sudo
+    home: '/home/daenney'
+    managehome: true
+    uid: 1000
+    password: >
+      ENC[PKCS7,MIIB2gYJKoZIhvcNAQcDoIIByzCCAccCAQAxggEhMIIBHQIBADAFMAACAQEw
+      DQYJKoZIhvcNAQEBBQAEggEAfIYfQrEElW5JF7/7HSgQJlmbFDu0Ph8FmPe5
+      D2fzAs2f7glSOmdB7DzI1G/wCr/BZyJ9l59nXmU7yvu98f0KQmqxSguVknmH
+      5QiPak03tveGQzNhUKUMUwKN7S4iHIM7mkBFWd06f2yIiBX2nuMfV+nPTsvN
+      dtOkG1JK+HciuJhRIbQ1ZtO7jN5f3ekYYavj4beMC1u09vIqIxVFbelydLEX
+      H7/NJBRh5ZJYmm4APAu/dmPfKxs2zUVQT7krJ20Uy/T03GfMt1+bCFQvpivH
+      mhCptRZlat8sLBalzubvzUFCcnhyDP3zjBkxllccqkHcYm82oQETTOe6D0Z1
+      KpubmzCBnAYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQm4iP2qwq27o0nDUk
+      5cBilYBwucvlGEK7yRzlaiZHbca/B0JeIrvJo8p0aoJ3Kjdq9WulyKEguDdZ
+      B59r2YC9dUUHIOkFTlGjszP0zC8TAtJH37ZPRvIwSvwlYRGX83wkKYPhoZET
+      T7H3/TDc5W8LLKNxZZwtKfv9/G8fRNikA8nJsg==]
+    ssh_authorized_keys: >
+      ENC[PKCS7,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
+      6Cl+bhXlgBES4ZpJRNv+kmDNy4TGNA==]
+
 ssh_moduli: >
   ENC[PKCS7,MIJgPQYJKoZIhvcNAQcDoIJgLjCCYCoCAQAxggEhMIIBHQIBADAFMAACAQEw
   DQYJKoZIhvcNAQEBBQAEggEAmOI8x4NT5MsMt6HxJOfYEDOgpRfpSMBSsShC
