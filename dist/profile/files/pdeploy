@@ -19,6 +19,7 @@ if test -f '/var/cache/pupa/disable-puppet'; then
   exit 1
 fi
 
+log "pdeploy: starting"
 cd /var/cache/pupa
 log "git: resetting pupa checkout"
 /usr/bin/git reset --hard HEAD
