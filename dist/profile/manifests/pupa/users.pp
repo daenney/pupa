@@ -16,6 +16,8 @@
 # * An array of (or combination of):
 #   * Single value string
 #   * Hash with at least the key attribute and any other valid attribute
+# The value of the type parameter only accepts ED25519 or RSA, (EC)DSA keys are
+# always rejected.
 #
 class profile::pupa::users (
   $humans      = hiera_hash('humans', {}),
@@ -59,9 +61,13 @@ class profile::pupa::users (
           }
         }
         Hash: { # lint:ignore:unquoted_string_in_case
+          if $value['type'] in ['dsa', 'ssh-dss', 'ecdsa-sha2-nistp256', # lint:ignore:variable_scope
+          'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521'] {
+            fail('SSH (EC)DSA keys are not allowed, please generate an RSA or ED25519 key')
+          }
           ssh_authorized_key { "${username}_${index}": # lint:ignore:variable_scope
             user => $username, # lint:ignore:variable_scope
-            *    => $value
+            *    => $value,
           }
         }
       }
