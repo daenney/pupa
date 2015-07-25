@@ -16,7 +16,7 @@ describe 'profile::pupa::users' do
           :user => 'daenney',
           :type => 'ssh-rsa',
           :key  => 'nom nom key',
-          })}
+        })}
       end
 
       context 'hash' do
@@ -62,7 +62,7 @@ describe 'profile::pupa::users' do
       let(:params) {{
         :humans => {
             'daenney' => {
-              'ssh_authorized_keys' => ['nom nom key']
+              'ssh_authorized_keys' => ['nom nom key', 'nom nom second key']
             }
         }
       }}
@@ -71,17 +71,27 @@ describe 'profile::pupa::users' do
         :user => 'daenney',
         :type => 'ssh-rsa',
         :key  => 'nom nom key',
-        })}
+      })}
+      it { is_expected.to contain_ssh_authorized_key('daenney_1').with({
+        :user => 'daenney',
+        :type => 'ssh-rsa',
+        :key  => 'nom nom second key',
+      })}
     end
 
     context 'hash' do
       let(:params) {{
         :humans => {
             'daenney' => {
-              'ssh_authorized_keys' => [{
-                'type' => 'ssh-rsa',
-                'key'  => 'nom nom key',
-                }
+              'ssh_authorized_keys' => [
+                {
+                  'type' => 'ssh-rsa',
+                  'key'  => 'nom nom key',
+                },
+                {
+                  'type' => 'ed25519',
+                  'key'  => 'nom nom second key',
+                },
               ]
             }
           }
@@ -92,6 +102,11 @@ describe 'profile::pupa::users' do
         :type => 'ssh-rsa',
         :key  => 'nom nom key',
       })}
+      it { is_expected.to contain_ssh_authorized_key('daenney_1').with({
+        :user => 'daenney',
+        :type => 'ed25519',
+        :key  => 'nom nom second key',
+      })}
     end
 
     context 'string and hash' do
@@ -99,7 +114,7 @@ describe 'profile::pupa::users' do
         :humans => {
             'daenney' => {
               'ssh_authorized_keys' => [{
-                'type' => 'ssh-rsa',
+                'type' => 'ed25519',
                 'key'  => 'nom nom key',
                 },
                 'nom nom second key',
@@ -110,7 +125,7 @@ describe 'profile::pupa::users' do
       it { is_expected.to contain_user('daenney') }
       it { is_expected.to contain_ssh_authorized_key('daenney_0').with({
         :user => 'daenney',
-        :type => 'ssh-rsa',
+        :type => 'ed25519',
         :key  => 'nom nom key',
       })}
       it { is_expected.to contain_ssh_authorized_key('daenney_1').with({
