@@ -1,5 +1,5 @@
 define aio_binstub (
-  $plbin = '/opt/puppetlabs/puppet/bin',
+  $plbin  = '/opt/puppetlabs/puppet/bin',
   $target = '/usr/local/bin',
   $prefix = undef,
 ) {
@@ -10,12 +10,11 @@ define aio_binstub (
     $stub = $title
   }
 
-  file { $stub:
+  file { "${target}/${stub}":
     ensure  => 'file',
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-    path    => "${target}/${stub}",
     content => "#!/usr/bin/env bash\n\nexec \"${plbin}/${title}\" \"$@\"\n",
   }
 }
