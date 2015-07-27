@@ -12,5 +12,10 @@ class profile::pupa::packages {
     require => Apt::Source['weechat'],
   }
 
+  package { 'mosh':
+    *       => $p_opts,
+    require => Apt::Source['mosh'],
+  }
+
   package { 'tmux': * => $p_opts, }
 }
