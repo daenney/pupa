@@ -39,7 +39,7 @@ class profile::pupa::users (
       purge_ssh_keys => true,
       *              => $attrs.filter | $key, $value | { # lint:ignore:variable_scope
         !($key in $non_user_attrs) # lint:ignore:variable_scope
-      }
+      },
     }
 
     $ssh_auth_keys = $attrs['ssh_authorized_keys'] # lint:ignore:variable_scope

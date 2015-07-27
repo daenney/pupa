@@ -7,6 +7,6 @@ class profile::ssh {
     group   => 'root',
     mode    => '0644',
     content => hiera('ssh_moduli'),
-    notify  => Class['::ssh::server::service']
+    notify  => Class['::ssh::server::service'],
   }
 }

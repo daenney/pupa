@@ -8,20 +8,20 @@ class profile::pupa::binstub {
   aio_binstub { 'irb': prefix => 'puppet', }
 
   file { 'papply':
-    ensure => 'file',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-    path   => '/usr/local/bin/papply',
-    source => "puppet:///modules/${module_name}/papply",
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    path    => '/usr/local/bin/papply',
+    content => file("${module_name}/papply"),
   }
 
   file { 'pdeploy':
-    ensure => 'file',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-    path   => '/usr/local/bin/pdeploy',
-    source => "puppet:///modules/${module_name}/pdeploy",
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    path    => '/usr/local/bin/pdeploy',
+    content => file("${module_name}/pdeploy"),
   }
 }
