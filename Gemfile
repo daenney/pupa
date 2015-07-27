@@ -9,7 +9,6 @@ gem 'puppet', '~>4.2'
 gem 'puppetlabs_spec_helper', '~>0.10.3'
 gem 'puppet-lint', '~>1.0'
 
-gem 'puppet-lint-trailing_newline-check'
 gem 'puppet-lint-variable_contains_upcase'
 gem 'puppet-lint-absolute_template_path'
 gem 'puppet-lint-strict_indent-check'
