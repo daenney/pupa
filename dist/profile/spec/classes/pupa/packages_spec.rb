@@ -11,5 +11,9 @@ describe 'profile::pupa::packages' do
     :require => 'Apt::Source[weechat]',
   })}
 
-  it { is_expected.to contain_package('tmux').with_ensure('latest')}
+  it { is_expected.to contain_package('tmux').with({
+    :ensure  => 'latest',
+    :require => 'Apt::Source[pirho]',
+  })}
+
 end

@@ -32,3 +32,7 @@ apt::sources:
     location: http://ppa.launchpad.net/nesthib/weechat-stable/ubuntu
     key:
       id: B3CA2119E0A8776886319AD4CAF43B664573289D
+  pirho:
+    location: http://ppa.launchpad.net/pi-rho/dev/ubuntu
+    key:
+      id: 3823B5A8A54746CA6CBED237CC892FC6779C27D7

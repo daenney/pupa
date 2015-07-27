@@ -17,5 +17,8 @@ class profile::pupa::packages {
     require => Apt::Source['mosh'],
   }
 
-  package { 'tmux': * => $p_opts, }
+  package { 'tmux':
+    *       => $p_opts,
+    require => Apt::Source['pirho'],
+  }
 }
