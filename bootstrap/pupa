@@ -5,7 +5,7 @@ set -euo pipefail
 IFS=$'\n\t'
 ### - Bash Strict mode - ###
 
-if test ${BASH_VERSION%%.*} -lt 4; then
+if test "${BASH_VERSION%%.*}" -lt 4; then
   echo "This script requires Bash version 4 or higher"
   exit 1
 fi
@@ -53,20 +53,20 @@ function log {
   msg=${1}
   level=${2:-INFO}
 
-  if test ${level} == 'INFO'; then
+  if test "${level}" == 'INFO'; then
     lcolour=$GREEN
-  elif test ${level} == 'WARN'; then
+  elif test "${level}" == 'WARN'; then
     lcolour=$YELLOW
-  elif test ${level} == 'ERR'; then
+  elif test "${level}" == 'ERR'; then
     lcolour=$RED
-  elif test ${level} == 'CRIT'; then
+  elif test "${level}" == 'CRIT'; then
     lcolour=$PURPLE
-  elif test ${level} == 'DEBUG'; then
+  elif test "${level}" == 'DEBUG'; then
     lcolour=$BLUE
   fi
   # Check at which level we're configured to log
   if test ${LOG_AT[${LOGLEVEL}]} -ge ${LOG_AT[${level}]}; then
-    echo "${BOLD}$(timestamp) ${lcolour}$(printf %-5s ${level})${RESET} ${msg}" | fold -w120 -s | sed '2~1s/^/                     /'
+    echo "${BOLD}$(timestamp) ${lcolour}$(printf %-5s "${level}")${RESET} ${msg}" | fold -w120 -s | sed '2~1s/^/                     /'
   fi
 }
 ### - Logging - ###
