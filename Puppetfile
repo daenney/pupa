@@ -3,6 +3,8 @@ forge 'http://forge.puppetlabs.com'
 # Libraries
 mod 'puppetlabs/stdlib', '4.9.0'
 mod 'puppetlabs/concat', '1.2.4'
+mod 'herculesteam/augeasproviders_shellvar', '2.2.0'
+mod 'herculesteam/augeasproviders_core', '2.1.2'
 
 # Base
 mod 'puppetlabs/apt', '2.2.0'
