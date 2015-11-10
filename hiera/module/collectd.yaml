@@ -1,5 +1,5 @@
 collectd::fqdnlookup: no
-collectd::hostname: "%{facts.fqdn}"
+collectd::collectd_hostname: "%{facts.fqdn}"
 collectd::purge: yes
 collectd::recurse: yes
 collectd::purge_config: yes
