@@ -9,7 +9,7 @@ collectd::plugin::df::fstypes:
   - 'ext4'
 collectd::plugin::interface::interfaces:
   - 'eth0'
-collectd::plugin::ping::hosts:
+collectd::plugin::ping::irc:
   - '2001:9a8:0:e:1337::6667' # irc.tweakers.net
   - '2001:6b0:e:2a18:5054:ff:fe01:8119' # chat.freenode.org
   - '2610:10:20:208::87' # irc.cat.pdx.edu

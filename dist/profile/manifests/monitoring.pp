@@ -7,9 +7,13 @@ class profile::monitoring {
   include ::collectd::plugin::interface
   include ::collectd::plugin::load
   include ::collectd::plugin::memory
-  include ::collectd::plugin::ping
   include ::collectd::plugin::processes
   include ::collectd::plugin::rrdtool
   include ::collectd::plugin::users
   include ::collectd::plugin::syslog
+
+  ::collectd::plugin::ping { 'irc':
+    hosts    => hiera('collectd::plugin::ping::irc'),
+    interval => hiera('collectd::plugin::ping::interval'),
+  }
 }
