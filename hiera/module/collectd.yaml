@@ -9,10 +9,4 @@ collectd::plugin::df::fstypes:
   - 'ext4'
 collectd::plugin::interface::interfaces:
   - 'eth0'
-collectd::plugin::ping::irc:
-  - '2001:9a8:0:e:1337::6667' # irc.tweakers.net
-  - '2001:6b0:e:2a18:5054:ff:fe01:8119' # chat.freenode.org
-  - '2610:10:20:208::87' # irc.cat.pdx.edu
-  - '2607:f8f0:610:4000:216:fff:fe53:9005' # irc.oftc.net
-collectd::plugin::ping::interval: 5
 collectd::plugin::rrdtool::cachetimeout: 60
