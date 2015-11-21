@@ -34,3 +34,7 @@ apt::sources:
     location: http://ppa.launchpad.net/pi-rho/dev/ubuntu
     key:
       id: 3823B5A8A54746CA6CBED237CC892FC6779C27D7
+  znc:
+    location: http://ppa.launchpad.net/teward/znc/ubuntu
+    key:
+      id: BC87658904397A42060A979C4A3EF61EE616D378
