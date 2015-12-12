@@ -14,3 +14,4 @@ mod 'saz/ssh', '2.8.1'
 mod 'puppet/collectd', '4.2.0'
 mod 'facette',
     :git => 'https://github.com/puppet-community/puppet-facette'
+mod 'puppetlabs/ntp', '4.1.2'

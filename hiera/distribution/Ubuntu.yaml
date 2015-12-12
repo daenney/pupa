@@ -38,3 +38,9 @@ apt::sources:
     location: http://ppa.launchpad.net/teward/znc/ubuntu
     key:
       id: BC87658904397A42060A979C4A3EF61EE616D378
+
+ntp::servers:
+  - 0.ubuntu.pool.ntp.org
+  - 1.ubuntu.pool.ntp.org
+  - 2.ubuntu.pool.ntp.org
+  - 3.ubuntu.pool.ntp.org
