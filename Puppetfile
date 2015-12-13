@@ -15,3 +15,5 @@ mod 'puppet/collectd', '4.2.0'
 mod 'facette',
     :git => 'https://github.com/puppet-community/puppet-facette'
 mod 'puppetlabs/ntp', '4.1.2'
+mod 'ufw',
+    :git => 'https://github.com/attachmentgenie/attachmentgenie-ufw.git'

@@ -9,4 +9,8 @@ class profile::ssh {
     content => hiera('ssh_moduli'),
     notify  => Class['::ssh::server::service'],
   }
+
+  ::ufw::allow { 'allow-world-ssh':
+    port => 22,
+  }
 }

@@ -12,5 +12,9 @@ fixtures:
     ssh:
       repo: 'saz/ssh'
       ref: '2.8.1'
+  repositories:
+    ufw:
+      repo: 'https://github.com/attachmentgenie/attachmentgenie-ufw.git'
+      ref: 'master'
   symlinks:
     "profile": "#{source_dir}"
