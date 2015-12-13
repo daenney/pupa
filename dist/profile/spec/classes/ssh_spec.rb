@@ -11,4 +11,7 @@ describe 'profile::ssh' do
     :content => 'potato ba-boy',
     :notify  => 'Class[Ssh::Server::Service]',
   })}
+  it { is_expected.to contain_ufw__allow('allow-world-ssh').with({
+    :port => 22,
+  })}
 end
