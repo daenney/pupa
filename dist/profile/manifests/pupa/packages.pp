@@ -17,6 +17,11 @@ class profile::pupa::packages {
     require => Apt::Source['mosh'],
   }
 
+  ::ufw::allow { 'allow-world-mosh':
+    port  => '60000:61000',
+    proto => 'udp',
+  }
+
   package { 'tmux':
     *       => $p_opts,
     require => Apt::Source['pirho'],
