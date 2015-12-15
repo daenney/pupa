@@ -14,7 +14,7 @@ PuppetLint::RakeTask.new(:lint) do |config|
       'class_parameter_defaults',
       'documentation',
       'single_quote_string_with_variables']
-  config.ignore_paths = ["bootstrap/**/*.pp", "tests/**/*.pp", "vendor/**/*.pp","examples/**/*.pp", "spec/**/*.pp", "pkg/**/*.pp"]
+  config.ignore_paths = ["bootstrap/**/*.pp", "tests/**/*.pp", "vendor/**/*.pp","examples/**/*.pp", "spec/**/*.pp", "pkg/**/*.pp", "dist/*/spec/**/*.pp"]
 end
 
 task(:lint_output) { puts '---> lint'}
