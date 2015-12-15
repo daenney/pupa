@@ -4,7 +4,7 @@ gem 'r10k', '~>2.0'
 gem 'hiera', '~>3.0'
 gem 'hiera-eyaml', '~>2.0'
 gem 'facter', '~>2.4'
-gem 'puppet', '~>4.2'
+gem 'puppet', '~>4.3'
 
 gem 'puppetlabs_spec_helper', '~>0.10.3'
 gem 'puppet-lint', '~>1.0'
