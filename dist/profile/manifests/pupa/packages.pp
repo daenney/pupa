@@ -30,6 +30,7 @@ class profile::pupa::packages {
   package { ['znc', 'znc-dev']:
     *       => $p_opts,
     require => Apt::Source['znc'],
+  }
 
   ::ufw::allow { 'allow-world-znc':
     port => 6697,
