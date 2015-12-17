@@ -12,7 +12,19 @@ fixtures:
     ssh:
       repo: 'saz/ssh'
       ref: '2.8.1'
+    shellvar:
+      repo: 'herculesteam/augeasproviders_shellvar'
+      ref: '2.2.0'
+    augeasproviders_core:
+      repo: 'herculesteam/augeasproviders_core'
+      ref: '2.1.2'
+    collectd:
+      repo: 'puppet/collectd'
+      ref: '4.2.0'
   repositories:
+    facette:
+      repo: 'https://github.com/puppet-community/puppet-facette.git'
+      ref: 'master'
     ufw:
       repo: 'https://github.com/attachmentgenie/attachmentgenie-ufw.git'
       ref: 'master'
