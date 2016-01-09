@@ -8,6 +8,7 @@ mod 'herculesteam/augeasproviders_core', '2.1.2'
 
 # Base
 mod 'puppetlabs/apt', '2.2.0'
+mod 'puppet/unattended_upgrades', '1.1.0'
 
 # Features
 mod 'saz/ssh', '2.8.1'
