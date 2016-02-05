@@ -45,6 +45,6 @@ ntp::servers:
   - 2.ubuntu.pool.ntp.org
   - 3.ubuntu.pool.ntp.org
 
-unattended_upgrades::origin:
+unattended_upgrades::origins:
   - '${distro_id}:${distro_codename}-security'
   - '${distro_id}:${distro_codename}-updates'
