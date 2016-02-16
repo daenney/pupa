@@ -24,7 +24,7 @@ if tty -s;then
     typeset -r GREEN=${GREEN:-$(tput setaf 2)}
     typeset -r YLW=${YLW:-$(tput setaf 3)}
     typeset -r BLUE=${BLUE:-$(tput setaf 4)}
-    typeset -r PURPLE=${URPLE:-$(tput setaf 5)}
+    typeset -r PURPLE=${PURPLE:-$(tput setaf 5)}
     typeset -r CYAN=${CYAN:-$(tput setaf 6)}
     typeset -r RESET=${RESET:-$(tput sgr0)}
     typeset -r BOLD=${BOLD:-$(tput bold)}
