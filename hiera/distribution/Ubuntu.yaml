@@ -38,6 +38,11 @@ apt::sources:
     location: http://ppa.launchpad.net/teward/znc/ubuntu
     key:
       id: BC87658904397A42060A979C4A3EF61EE616D378
+  docker:
+    location: apt.dockerproject.org/repo
+    release: "ubuntu-%{::facts.lsbdistcodename}"
+    key:
+      id: 58118E89F3A912897C070ADBF76221572C52609D
 
 ntp::servers:
   - 0.ubuntu.pool.ntp.org
