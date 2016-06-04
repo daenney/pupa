@@ -4,10 +4,15 @@ describe 'profile::monitoring' do
   let(:pre_condition) {
     'include apt'
   }
-  let(:facts) { {:osfamily => 'Debian',
-                 :concat_basedir => '/tmp',
-                 :lsbdistcodename => 'trusty',
-                 :lsbdistid => 'Ubuntu' } }
+  let(:facts) { {
+    :osfamily => 'Debian',
+    :concat_basedir => '/tmp',
+    :lsbdistcodename => 'trusty',
+    :lsbdistid => 'Ubuntu',
+    :networking => { :interfaces => { :eth0 => { :ip => '127.0.0.1',
+                                                 :ip6 => '::1',}}},
+  }}
+
   it { is_expected.to contain_class('collectd') }
   it { is_expected.to contain_class('facette') }
 
@@ -26,7 +31,7 @@ describe 'profile::monitoring' do
     :interval => 5,
   })}
 
-  it { is_expected.to contain_ufw__allow('allow-world-facette').with({
+  it { is_expected.to contain_profile__firewall__allow('allow-world-facette').with({
     :port => 12003,
   })}
 end

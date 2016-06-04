@@ -17,7 +17,7 @@ class profile::monitoring {
     interval => hiera('collectd::plugin::ping::interval'),
   }
 
-  ::ufw::allow { 'allow-world-facette':
+  ::profile::firewall::allow { 'allow-world-facette':
     port => 12003,
   }
 }
