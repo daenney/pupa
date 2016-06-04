@@ -10,7 +10,7 @@ class profile::ssh {
     notify  => Class['::ssh::server::service'],
   }
 
-  ::ufw::allow { 'allow-world-ssh':
+  ::profile::firewall::allow { 'allow-world-ssh':
     port => 22,
   }
 }

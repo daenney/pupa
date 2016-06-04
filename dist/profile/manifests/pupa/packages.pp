@@ -17,7 +17,7 @@ class profile::pupa::packages {
     require => Apt::Source['mosh'],
   }
 
-  ::ufw::allow { 'allow-world-mosh':
+  ::profile::firewall::allow { 'allow-world-mosh':
     port  => '60000:61000',
     proto => 'udp',
   }
@@ -32,7 +32,7 @@ class profile::pupa::packages {
     require => Apt::Source['znc'],
   }
 
-  ::ufw::allow { 'allow-world-znc':
+  ::profile::firewall::allow { 'allow-world-znc':
     port => 6697,
   }
 }
