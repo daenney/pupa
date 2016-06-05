@@ -25,11 +25,7 @@ describe 'profile::monitoring' do
   it { is_expected.to contain_class('collectd::plugin::rrdtool') }
   it { is_expected.to contain_class('collectd::plugin::users') }
   it { is_expected.to contain_class('collectd::plugin::syslog') }
-
-  it { is_expected.to contain_collectd__plugin__ping('irc').with({
-    :hosts => ['8.8.8.8', '8.8.4.4', '2001:4860:4860::8888', '2001:4860:4860::8844'],
-    :interval => 5,
-  })}
+  it { is_expected.to contain_class('collectd::plugin::ping') }
 
   it { is_expected.to contain_profile__firewall__allow('allow-world-facette').with({
     :port => 12003,

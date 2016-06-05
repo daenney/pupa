@@ -11,11 +11,7 @@ class profile::monitoring {
   include ::collectd::plugin::rrdtool
   include ::collectd::plugin::users
   include ::collectd::plugin::syslog
-
-  ::collectd::plugin::ping { 'irc':
-    hosts    => hiera('collectd::plugin::ping::irc'),
-    interval => hiera('collectd::plugin::ping::interval'),
-  }
+  include ::collectd::plugin::ping
 
   ::profile::firewall::allow { 'allow-world-facette':
     port => 12003,
