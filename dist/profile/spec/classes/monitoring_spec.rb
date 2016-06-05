@@ -9,6 +9,7 @@ describe 'profile::monitoring' do
     :concat_basedir => '/tmp',
     :lsbdistcodename => 'trusty',
     :lsbdistid => 'Ubuntu',
+    :lsbdistrelease => '14.04',
     :networking => { :interfaces => { :eth0 => { :ip => '127.0.0.1',
                                                  :ip6 => '::1',}}},
   }}
