@@ -10,3 +10,12 @@ collectd::plugin::df::fstypes:
 collectd::plugin::interface::interfaces:
   - 'eth0'
 collectd::plugin::rrdtool::cachetimeout: 60
+collectd::plugin::ping::hosts:
+  - '2001:9a8:0:e:1337::6667' # irc.tweakers.net
+  - '2001:6b0:e:2a18:5054:ff:fe01:8119' # chat.freenode.org
+  - '2610:10:20:208::87' # irc.cat.pdx.edu
+  - '2607:f8f0:610:4000:216:fff:fe53:9005' # irc.oftc.net
+  - '2001:4860:4860::8888' # google-public-dns-a.google.com
+  - '2001:4860:4860::8844' # google-public-dns-b.google.com
+  - '2a04:dcc0::2' # björn
+collectd::plugin::ping::interval: 5
