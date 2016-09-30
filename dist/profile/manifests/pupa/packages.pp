@@ -12,6 +12,10 @@ class profile::pupa::packages {
     require => Apt::Source['weechat'],
   }
 
+  ::profile::firewall::allow { 'allow-world-weechat-relay':
+    port  => '9001',
+  }
+
   package { 'mosh':
     *       => $p_opts,
     require => Apt::Source['mosh'],
