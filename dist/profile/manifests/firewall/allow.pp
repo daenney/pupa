@@ -8,7 +8,7 @@ define profile::firewall::allow(
   ::ufw::allow { "${title}-v4":
     ensure => $ensure,
     proto  => $proto,
-    port   => $port,
+    port   => "${port}", #lint:ignore:only_variable_string
     ip     => $::facts['networking']['interfaces']['eth0']['ip'],
     from   => $from,
   }
@@ -16,7 +16,7 @@ define profile::firewall::allow(
   ::ufw::allow { "${title}-v6":
     ensure => $ensure,
     proto  => $proto,
-    port   => $port,
+    port   => "${port}", #lint:ignore:only_variable_string
     ip     => $::facts['networking']['interfaces']['eth0']['ip6'],
     from   => $from,
   }
