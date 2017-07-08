@@ -90,8 +90,8 @@ command -v git >/dev/null 2>&1 || { log >&2 "git is not installed, ${PURPLE}abor
 # Find the OS codename
 distr=$(lsb_release --id -s)
 rel=$(lsb_release --codename -s)
-# Version of Puppet Collection
-pc=1
+# Version of Puppet Platform
+platform_ver=5
 # Where this script is located
 pupa_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)
 # Puppetlabs bin/ dir
@@ -108,18 +108,18 @@ function papply {
 }
 
 function install_puppetrepo {
-  if test ! -f '/etc/apt/sources.list.d/puppetlabs-pc1.list'; then
-    log "Fetching PC${pc} release package for ${distr^} ${rel^}"
+  if test ! -f '/etc/apt/sources.list.d/puppet5.list'; then
+    log "Fetching Puppet ${platform_ver} release package for ${distr^} ${rel^}"
     if debugging; then
-      curl -L -O "https://apt.puppetlabs.com/puppetlabs-release-pc${pc}-${rel}.deb"
+      curl -L -O "https://apt.puppetlabs.com/puppet${platform_ver}-release-${rel}.deb"
     else
-      curl -s -L -O "https://apt.puppetlabs.com/puppetlabs-release-pc${pc}-${rel}.deb"
+      curl -s -L -O "https://apt.puppetlabs.com/puppet${platform_ver}-release-${rel}.deb"
     fi
     log "Installing Puppetlabs APT sources entries for ${distr^} ${rel^}"
     if debugging; then
-      dpkg -i "puppetlabs-release-pc${pc}-${rel}.deb"
+      dpkg -i "puppet${platform_ver}-release-${rel}.deb"
     else
-      dpkg -i "puppetlabs-release-pc${pc}-${rel}.deb" >/dev/null 2>&1
+      dpkg -i "puppet${platform_ver}-release-${rel}.deb" >/dev/null 2>&1
     fi
   else
     log "Puppetlabs APT source entries already installed, skipping"
@@ -129,31 +129,31 @@ function install_puppetrepo {
 function refresh_apt_sources {
   log "Refreshing APT sources"
   if debugging; then
-    apt-get update
+    apt update
   else
-    apt-get update -qq > /dev/null 2>&1
+    apt update -qq > /dev/null 2>&1
   fi
   log "Done refreshing APT sources"
 }
 
 function setup_puppet {
-  log "Installing and configuring puppet"
+  log "Installing and configuring Puppet"
   if test ! -f "${plbin}/puppet"; then
     refresh_apt_sources
     if debugging; then
-      apt-get install puppet-agent
+      apt install puppet-agent
     else
-      DEBIAN_FRONTEND=noninteractive apt-get install -qq --yes --force-yes puppet-agent > /dev/null 2>&1
+      DEBIAN_FRONTEND=noninteractive apt install -qq --yes --force-yes puppet-agent > /dev/null 2>&1
     fi
   fi
   papply "${pupa_dir}/manifests/puppet.pp"
-  log "Successfully installed and configured puppet"
+  log "Successfully installed and configured Puppet"
 }
 
 function setup_hiera {
-  log "Installing and configuring hiera, hiera-eyaml"
+  log "Installing and configuring Hiera"
   papply "${pupa_dir}/manifests/hiera.pp"
-  log "Successfully installed and configured hiera-eyaml"
+  log "Successfully installed and configured Hiera"
 }
 
 function setup_r10k {
@@ -179,7 +179,7 @@ function main {
 log "Bootstrapping Puppet on ${YLW}$(hostname --fqdn)${RESET}"
 main
 log "Done configuring Puppet on ${YLW}$(hostname --fqdn)${RESET}"
-log "Please ensure to ${RED}create/upload${RESET} the hiera-eyaml keys in ${pletc}/keys"
+log "Please ensure to ${RED}create/upload${RESET} the hiera-eyaml keys in ${pletc}/puppet/eyaml"
 log "First run '${plbin}/r10k deploy environment -pv' to deploy your code"
 log "And then run '${plbin}/puppet apply ${pletc}/code/environments/production/manifests/site.pp' to kick of a Puppet run"
 exit 0

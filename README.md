@@ -5,22 +5,27 @@ Pupa is a few things:
 * Heavily inspired by [puppetinabox](https://github.com/puppetinabox/documentation)
 * Named after a [haunted doll](http://www.nightwatchparanormal.com/pupa-the-haunted-doll.html)
 * Licensed under the [Apache License, Version 2.0](LICENSE)
-* A [script](bootstrap/pupa) to bootstrap a masterless (puppet apply) installation of Puppet 4
+* A [script](bootstrap/pupa) to bootstrap a masterless (puppet apply) installation of Puppet 5
   with r10k
-* Puppet [manifests](dist) for my personal machines
 
 ## pupa (the script)
 
 The script in `bootstrap/` and the associated configuration there will take care
-of getting your server ready to rumble with Puppet 4. It will use the Puppet 4
+of getting your server ready to rumble with Puppet 5. It will use the Puppet 5
 AIO packages to install Puppet and will use the version of Ruby and `gem`
 provided by that package in `/opt/puppetlabs` to install additional dependencies
 like r10k.
 
-This has been designed to work with Debian/Ubuntu systems. It will go up in
+Contrary to previous version this repository no longer contains any of my
+customisations. It does in the `Puppetfile` include a few "must have" libraries
+and still includes a complete `Rakefile` to help you get going with
+development. From there on out you're on your own but there's a lot of very
+good [documentation available for Puppet 5](https://docs.puppet.com/puppet/5.0/).
+
+**This has been designed to work with Debian/Ubuntu systems**. It will go up in
 flames if you try to run this on anything else including other Debian
 derivatives for which the [Puppetlabs APT repository](https://apt.puppetlabs.com)
-does not provide a [Puppet Collection](https://puppetlabs.com/blog/welcome-puppet-collections)
+does not provide a [Puppet 5](https://puppet.com/blog/puppet-5-platform-released)
 release package.
 
 What this script will attempt to do:
@@ -63,41 +68,14 @@ In order to use Pupa:
   authentication if it's a public repo)
 * run `boostrap/pupa`
 
-Assuming nothing blew up you now have a functioning Puppet 4 installation. If
+Assuming nothing blew up you now have a functioning Puppet 5 installation. If
 something did go wrong you can tell Pupa to be a bit more verbose and instead
 run `PUPA_LOGLEVEL=DEBUG bootstrap/pupa`.
-
-## pupa (the configuration)
-
-The configuration contained here is my own but might be a good start or good fit
-for you too. However, before you actually run this on your machine you should
-inspect and modify:
-
-* Anything within the `dist/` directory (my roles and profiles)
-* Anything within the `hiera/` directory (my hiera data)
-
-### usage
-
-Once you've made the necessary changes and updated the Pupa checkout on your
-machines you need to:
-
-* Run `r10k` to deploy your environment(s)
-* Run `puppet apply` to apply the configuration
-
-If everything went fine you should see something like this:
-
-```
-$ /opt/puppetlabs/puppet/bin/r10k deploy environment -pv
-INFO	 -> Deploying environment /etc/puppetlabs/code/environments/production
-$ /opt/puppetlabs/puppet/bin/puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp
-Notice: Compiled catalog for localhost in environment production in 0.71 seconds
-Notice: Applied catalog in 0.04 seconds
-```
 
 ## Developing
 
 The provided `Gemfile` will take care of installing Puppet, Facter, Hiera, r10k
-etc locally for you so you can work on manifests, run the tests and so forth.
+etc. locally for you so you can work on manifests, run the tests and so forth.
 
 ```
 $ bundle install
@@ -110,11 +88,16 @@ $ bundle install
  Use `bundle show [gemname]` to see where a bundled gem is installed.
 ```
 
-The Gemfile also installs puppet-lint, the puppetlabs_spec_helper gem and a
-bunch of puppet-lint plugins. These will help you to check your manifests for
-things like syntax errors and style errors or run the rspec tests.
+The `Gemfile` also installs `puppet-lint` and the `puppetlabs_spec_helper`
+gems. It used to include a number of additional plugins but most of these
+only signal support for puppet-lint 1.x breaking the installation of the
+bundle.
 
-A number of tasks are defined by the Rakefile:
+Please take a look at the [puppet-lint plugin list on Vox Pupuli](https://voxpupuli.org/plugins/#puppet-lint)
+and pick which seem useful to you. Add those to the `Gemfile` but first check
+on Rubygems if they support puppet-lint 2.x.
+
+A number of tasks are defined by the `Rakefile`:
 
 ```
 $ rake -vT
@@ -140,17 +123,11 @@ Finished in 1 second (files took 0.77317 seconds to load)
 
 ## Contributing
 
-Contributions to both the bootstrap script and my configuration are always very
-welcome. Any change however should be motivated with a good explanation of why
-this change is necessary and generally have commits that:
+Contributions are always very welcome. Any change however should be motivated
+with a good explanation of why this change is necessary and generally have
+commits that:
 
 * Are written in the imperative style
 * Where a single commit represents a single feature
 * Have a short subject
 * Include as much text as needed in the body to motivate this change
-
-Note that I will freely reject changes to both the `hiera/` and the `dist/`
-trees. Even though your suggested changes might make sense in the grand scheme
-of things they represent my opinion as to how I like to configure my machines
-and as such I'd highly recommend raising an issue about it first to discuss the
-changes beforehand.

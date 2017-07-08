@@ -1,9 +1,0 @@
-apt::update:
-  frequency: daily
-  timeout: 30
-  tries: 2
-apt::purge:
-  sources.list: yes
-  sources.list.d: yes
-  preferences: yes
-  preferences.d: yes

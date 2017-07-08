@@ -5,16 +5,16 @@ require 'puppet-lint/tasks/puppet-lint'
 # This is needed until https://github.com/rodjek/puppet-lint/commit/efb19675 gets released
 # Need to add the bootstrap/ directory to the exclude paths
 Rake::Task[:lint].clear
-PuppetLint.configuration.relative = true
-PuppetLint::RakeTask.new(:lint) do |config|
+PuppetLint::RakeTask.new :lint do |config|
+  config.pattern = 'dist/**/*.pp'
+  config.disable_checks = ['documentation', '140chars']
+  config.with_filename = true
   config.fail_on_warnings = true
-  config.disable_checks = [
-      '80chars',
-      'class_inherits_from_params_class',
-      'class_parameter_defaults',
-      'documentation',
-      'single_quote_string_with_variables']
-  config.ignore_paths = ["bootstrap/**/*.pp", "tests/**/*.pp", "vendor/**/*.pp","examples/**/*.pp", "spec/**/*.pp", "pkg/**/*.pp", "dist/*/spec/**/*.pp"]
+  config.log_format = '%{filename} - %{message}'
+  config.with_context = true
+  config.fix = false
+  config.show_ignored = false
+  config.relative = true
 end
 
 task(:lint_output) { puts '---> lint'}
