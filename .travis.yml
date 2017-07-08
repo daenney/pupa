@@ -3,6 +3,6 @@ sudo: false
 language: ruby
 script: "bundle exec rake test SPEC_OPTS='--format documentation'"
 rvm:
-  - 2.1.6
+  - 2.4.1
 notifications:
   email: false
